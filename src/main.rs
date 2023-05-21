@@ -1,22 +1,25 @@
 mod model;
 
-use crate::model::erc20::ERC20;
-use crate::model::order::{EipErr, MooMaker, Order};
-use crate::model::weth::WETH;
-use ethers::core::k256::ecdsa::SigningKey;
-use ethers::prelude::Wallet;
-use ethers::types::{Signature, H160, H256};
-use ethers::{
-    core::types::{Address, U256},
-    middleware::SignerMiddleware,
-    providers::{Http, Middleware, Provider},
-    signers::{LocalWallet, Signer},
-    types::transaction::eip712::Eip712,
+use {
+    crate::model::{
+        erc20::ERC20,
+        order::{EipErr, MooMaker, Order},
+        weth::WETH,
+    },
+    ethers::{
+        core::{
+            k256::ecdsa::SigningKey,
+            types::{Address, Signature, H160, H256, U256},
+        },
+        middleware::SignerMiddleware,
+        prelude::Wallet,
+        providers::{Http, Middleware, Provider},
+        signers::{LocalWallet, Signer},
+        types::transaction::eip712::Eip712,
+    },
+    std::{error::Error, str::FromStr, sync::Arc},
+    tokio::sync::Mutex,
 };
-use std::error::Error;
-use std::str::FromStr;
-use std::sync::Arc;
-use tokio::sync::Mutex;
 
 static CHAIN_ID: Mutex<Option<u64>> = Mutex::const_new(None);
 const MOO_CONTRACT_ADDRESS: &str = "0xcEe38fB7D7c6ed6BABc18898BDEF67ED572Cc9D0";
